@@ -1,0 +1,42 @@
+
+
+{
+    id,
+    pdfName,
+    pdfUrl,
+    createdAt,
+    createdBy:User.id,
+    fileKey,
+    isGroup,
+    members: user[],
+}
+
+{
+    id,
+    chatId,
+    content,
+    createdAt,
+    bySystem,
+    sentBy,
+    sentAt
+}
+
+
+{
+    
+}
+
+
+{
+    id, 
+    username,
+    email,
+    password,
+    createdAt,
+    chats: chats[],
+    lastLogin
+}
+
+// Create a user, when user signs up.
+// Create a chat when user creates a new chat.
+// Each message is a record in the messages object.
