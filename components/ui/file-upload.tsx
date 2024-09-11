@@ -6,7 +6,14 @@ import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
 import { uploadFileToS3 } from "@/app/lib/s3/s3";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { useSession } from 'next-auth/react';
+import { redirect } from "next/navigation";
 
+
+
+
+import axios from 'axios';
 const mainVariant = {
     initial: {
         x: 0,
@@ -28,6 +35,12 @@ const secondaryVariant = {
     },
 };
 
+type MutateArgs = {
+    fileKey: string,
+    fileName: string
+}
+
+
 export const FileUpload = ({
     onChange,
 }: {
@@ -36,7 +49,31 @@ export const FileUpload = ({
     const [files, setFiles] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [uploading, setUploading] = useState<boolean>(false);
-    const { toast } = useToast()
+    const { toast } = useToast();
+
+
+    const { data: session } = useSession({
+        required: true,
+        onUnauthenticated() {
+            // redirect('/signin?callbackUrl=/home')    
+        }
+    })
+
+
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: async (data?: MutateArgs) => {
+
+            if (data) {
+                const { fileName, fileKey } = data;
+                const response = await axios.post('/api/create-chat', {
+                    createdBy: session?.user?.id, fileName, fileKey
+                })
+                return response.data
+            }
+            return
+        }
+    })
 
     const handleFileChange = async (newFiles: File[]) => {
 
@@ -50,12 +87,30 @@ export const FileUpload = ({
         }
         setUploading(true)
         const data = await uploadFileToS3(file);
-        if (!data?.file_key || !data.file_name) {
+        if (!data?.fileKey || !data.fileName) {
             toast({
                 title: "File upload filed",
                 description: "Couldn't upload the file in cloud, kindly try again later",
             })
         }
+
+
+        mutate(data, {
+            onSuccess: ({ chat }) => {
+                setUploading(false)
+                console.log(chat)
+                toast({
+                    title: "Chat has been created."
+                })
+            },
+            onError: (error: any) => {
+                console.log(error)
+                setUploading(false)
+                toast({
+                    title: "Error opening chat..."
+                })
+            }
+        })
     };
 
     const handleClick = () => {

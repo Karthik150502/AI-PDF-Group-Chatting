@@ -1,6 +1,6 @@
-import { integer, pgEnum, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core"
-
-
+import { boolean, integer, pgEnum, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core"
+import { Chat } from "./chatSchema"
+export const UserSystemEnum = pgEnum("user_system_enum", ["SYSTEM", "USER"])
 
 export const User = pgTable("User", {
     id: serial("id").primaryKey(),
@@ -13,3 +13,12 @@ export const User = pgTable("User", {
 
 
 
+export type UserType = typeof User.$inferSelect;
+
+export const Message = pgTable("Message", {
+    id: serial("id").primaryKey(),
+    chat: serial("chatid").primaryKey().references(() => Chat.id),
+    sentBy: serial("userid").primaryKey().references(() => User.id),
+    sentAt: timestamp("sent_at").notNull().defaultNow(),
+    role: UserSystemEnum("role").notNull(),
+})

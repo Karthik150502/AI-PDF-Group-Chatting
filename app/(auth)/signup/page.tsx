@@ -1,5 +1,5 @@
 import React from 'react'
-import SignUpform from '@/components/signup/signinform'
+import SignUpform from '@/components/signup/signUpform'
 export default function page() {
     return (
         <div className='w-screen h-screen flex flex-col items-center justify-center gap-y-4'>

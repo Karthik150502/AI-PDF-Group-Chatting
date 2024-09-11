@@ -67,11 +67,25 @@ export default function SignInform() {
     }
 
 
+    const copyCreds = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        if (e.target?.id == "copy-username") {
+            window.navigator.clipboard.writeText("karthik_150502");
+        }
+        if (e.target?.id == "copy-email") {
+            window.navigator.clipboard.writeText("karthikrdy150502@gmail.com");
+        }
+        if (e.target?.id == "copy-pwd") {
+            window.navigator.clipboard.writeText("Karthik@150502");
+        }
+    }
+
     return (
         <section className='min-w-[320px] w-[340px] max-w-[400px] h-auto flex items-center justify-center'>
             <form onSubmit={handleSubmit} className='flex flex-col items-center justify-center gap-y-3 w-full'>
 
 
+                <button onClick={(e) => copyCreds(e)} id="copy-username" type="button">Copy username</button>
+                <button onClick={(e) => copyCreds(e)} id="copy-email" type="button">Copy Email</button>
                 <label htmlFor="useroremail" className='flex flex-col items-start justify-center w-full'>
                     <p className='text-white text-sm font-extralight'>Username</p>
                     <Input onChange={(e) => handleChange(e.target)} name='useroremail' type='text' id='useroremail' placeholder='Username or Email'></Input>
@@ -81,6 +95,7 @@ export default function SignInform() {
                         })
                     }
                 </label>
+                <button onClick={(e) => copyCreds(e)} id="copy-pwd" type="button">Copy Password</button>
                 <label htmlFor="password" className='flex flex-col items-start justify-center w-full relative'>
                     <p className='text-white text-sm font-extralight'>Password</p>
                     <Input onChange={(e) => handleChange(e.target)} name='password' type={showPwd ? "text" : "password"} id='password' placeholder='Password'></Input>
