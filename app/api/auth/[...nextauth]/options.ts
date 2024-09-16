@@ -6,8 +6,34 @@ import { db } from "@/app/lib/db"
 import { User, UserType } from "@/app/lib/db/schema"
 import { eq, or } from "drizzle-orm"
 import { randomUUID, randomBytes } from "crypto"
-import { Awaitable } from "next-auth"
-import { callbackify } from "util"
+import { NextAuthOptions } from 'next-auth';
+import { Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
+
+
+export interface UserSession extends Session {
+    user: {
+        id: string;
+        jwtToken: string;
+        role: string;
+        email: string;
+        name: string;
+    };
+}
+
+interface Token extends JWT {
+    uid: string;
+    jwtToken: string;
+}
+
+
+
+interface tokenUser {
+    id: string;
+    name: string;
+    email: string;
+    token: string;
+}
 
 
 export const options = {
@@ -40,7 +66,6 @@ export const options = {
             },
 
             async authorize(creds) {
-                console.log("Credentials from authorize callback = ", creds)
                 const user = await db.select().from(User).where(or(eq(User.username, creds?.username!), eq(User.email, creds?.email!)));
                 if (user) {
                     return user[0]
@@ -50,25 +75,29 @@ export const options = {
         })
     ],
 
+    session: {
+        // Seconds - How long until an idle session expires and is no longer valid.
+        maxAge: 2 * 60 * 60, // 2 Hours
 
+    },
 
     callbacks: {
         async jwt({ token, user }: { token: any, user: any }) {
-            let users = await db.select().from(User).where(eq(User.id, user.id))
-            let userFound = users[0];
-            if (!userFound) {
-                return token
+            const newToken: Token = token as Token;
+            // Generating the body for the jwt to sign.
+            if (user) {
+                newToken.uid = user.id;
+                newToken.jwtToken = (user as tokenUser).token;
             }
-
-            return {
-                id: userFound.id,
-                name: userFound.username,
-                email: userFound.email,
-                createdAt: userFound.createdAt
-            }
+            return newToken
         },
+
+
+
         async session({ session, token }: { session: any, token: any }) {
-            if (token) {
+            const newSession: UserSession = session as UserSession;
+            // Returning some data to utilize in the session.
+            if ((newSession.user && token.uid)) {
                 session.user.id = token.id
                 session.user.name = token.name
                 session.user.email = token.email
@@ -77,7 +106,7 @@ export const options = {
             return session
         }
     },
-    pages: { signIn: '/signin', newUser: "/signup" },
+    pages: { signIn: '/signin', newUser: "/home", error: "/error" },
 
 
 } 

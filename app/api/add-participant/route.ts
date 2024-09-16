@@ -1,9 +1,8 @@
 import { db } from "@/app/lib/db";
-import { Chat, Participant } from "@/app/lib/db/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { Participant } from "@/app/lib/db/schema";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next"
 import { options } from "../auth/[...nextauth]/options";
-import { getS3Url } from "@/app/lib/s3/s3";
 export async function POST(req: Request, res: Response) {
     const session = await getServerSession(options);
     if (session) {
@@ -17,32 +16,19 @@ export async function POST(req: Request, res: Response) {
     }
     try {
         const body = await req.json();
-        const { fileKey, fileName, createdBy } = body;
-
-
-
-        const chat = await db.insert(Chat).values({
-            fileKey: fileKey,
-            fileName: fileName,
-            pdfUrl: getS3Url(fileKey),
-            createdBy,
-        }).returning({
-            chatid: Chat.id
-        })
+        const { userid, chatid } = body;
         const participant = await db.insert(Participant).values({
-            chat: chat[0].chatid,
-            participant: createdBy
+            chat: chatid,
+            participant: userid
         }).returning({
             participantid: Participant.id
         })
-        console.log("Chat created from the api = ", chat);
 
-        return NextResponse.json({ chat: chat[0], participant: participant[0] }, { status: 200 })
-
+        return NextResponse.json({ participant: participant[0] }, { status: 200 })
     } catch (error) {
         console.error(error)
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: "Internal server error, participant cannot be added." },
             { status: 500 }
         )
     }

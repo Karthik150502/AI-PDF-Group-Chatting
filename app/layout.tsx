@@ -2,16 +2,10 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import AuthProvider from "./components/auth/authProvider";
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+
+
+
+import { montserrat300 } from "./fonts/montserrat";
 
 export const metadata: Metadata = {
   title: "AI PDF Chatting",
@@ -27,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${montserrat300.className} ${montserrat300.className} antialiased relative min-h-screen overflow-hidden grid place-content-center`}
         >
           {children}
         </body>

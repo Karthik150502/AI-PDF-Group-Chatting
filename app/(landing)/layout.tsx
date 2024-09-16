@@ -3,6 +3,10 @@ import AuthProvider from "../components/auth/authProvider";
 import Navbar from "../components/auth/Navbarlarge/navbar";
 import { Toaster } from "@/components/ui/toaster"
 import Provider from "@/components/ui/provider";
+import { montserrat300 } from "../fonts/montserrat";
+import clsx from "clsx";
+
+
 
 
 export default function RootLayout({
@@ -14,7 +18,7 @@ export default function RootLayout({
         <html lang="en">
             <AuthProvider>
                 <Provider>
-                    <body className="w-screen h-screen flex p-8 relative">
+                    <body className={clsx("min-h-screen flex relative overflow-hidden ", montserrat300.className)}>
                         {children}
                         <Toaster />
                     </body >

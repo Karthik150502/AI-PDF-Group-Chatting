@@ -7,7 +7,7 @@ abstract class ChatsAbs {
 
     public deleteChat(): void { }
 
-    
+
 
 
 

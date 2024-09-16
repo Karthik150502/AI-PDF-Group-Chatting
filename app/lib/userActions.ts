@@ -12,11 +12,7 @@ export async function handleNewUser(formData: SignUpType) {
     const { fullname, username, email, password } = formData;
 
 
-
-    console.log(eq(User.email, email));
-    console.log(eq(User.username, username));
-
-    let user = await db.select().from(User).where(eq(User.email, email) || eq(User.username, username));
+    let user = await db.select().from(User).where(or(eq(User.email, email), eq(User.username, username)));
 
 
     if (user.length) {
@@ -34,10 +30,15 @@ export async function handleNewUser(formData: SignUpType) {
         username,
         email,
         password: pwdHashed
+    }).returning({
+        id: User.id,
+        name: User.fullname,
+        username: User.username,
+        email: User.email,
     })
 
     return {
-        user: newUser,
+        user: newUser[0],
         status: 200,
         message: "User created successfully."
     }
