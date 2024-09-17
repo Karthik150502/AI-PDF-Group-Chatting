@@ -2,7 +2,13 @@ import { withAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
 
 export default withAuth(
-    function middleware(req) {
+    function (req) {
+        console.log("Middleware...")
+        const token = req.nextauth.token;
+        console.log("token = ", token)
+        if (!token) {
+            return NextResponse.redirect(new URL('/invalidsession', req.url));
+        }
     },
     {
         callbacks: {

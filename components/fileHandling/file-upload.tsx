@@ -61,7 +61,6 @@ export const FileUpload = ({
 
     const { mutate, isPending } = useMutation({
         mutationFn: async (data?: MutateArgs) => {
-
             if (data) {
                 const { fileName, fileKey } = data;
                 const response = await axios.post('/api/create-chat', {
@@ -91,7 +90,7 @@ export const FileUpload = ({
         const data = await uploadFileToS3(file);
         if (!data?.fileKey || !data.fileName) {
             toast({
-                title: "File upload filed",
+                title: "File upload failed",
                 description: "Couldn't upload the file in cloud, kindly try again later",
             })
             setUploading(false)
@@ -107,7 +106,7 @@ export const FileUpload = ({
                     title: "Chat has been created.",
                     description: `Chat has been created with file, ${data.fileName}.`
                 })
-                router.push("/chats")
+                router.push(`/chats/${chat.id}`)
             },
             onError: (error: any) => {
                 console.log(error)

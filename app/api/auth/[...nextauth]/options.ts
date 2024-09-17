@@ -98,12 +98,11 @@ export const options = {
             const newSession: UserSession = session as UserSession;
             // Returning some data to utilize in the session.
             if ((newSession.user && token.uid)) {
-                session.user.id = token.id
-                session.user.name = token.name
-                session.user.email = token.email
-                session.user.createdAt = token.createdAt
+                newSession.user.id = token.uid
+                newSession.user.name = token.name
+                newSession.user.email = token.email
             }
-            return session
+            return newSession
         }
     },
     pages: { signIn: '/signin', newUser: "/home", error: "/error" },

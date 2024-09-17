@@ -57,7 +57,7 @@ export default function SignInform() {
         }
 
 
-        let res = await signIn('credentials', { email: useroremail, username: useroremail, password, redirect: false });
+        let res = await signIn('credentials', { email: useroremail, username: useroremail, password,  redirect: false });
         if (res) {
             router.push("/home");
             router.refresh()

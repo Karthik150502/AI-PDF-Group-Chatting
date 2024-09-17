@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-import AuthProvider from "./components/auth/authProvider";
 
 
 
@@ -19,13 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AuthProvider>
-        <body
-          className={`${montserrat300.className} ${montserrat300.className} antialiased relative min-h-screen overflow-hidden grid place-content-center`}
-        >
-          {children}
-        </body>
-      </AuthProvider>
+      <body
+        className={`${montserrat300.className} ${montserrat300.className} antialiased relative min-h-screen overflow-hidden grid place-content-center`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

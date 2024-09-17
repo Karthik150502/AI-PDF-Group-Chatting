@@ -13,11 +13,11 @@ export const User = pgTable("User", {
 
 export const Chat = pgTable("Chat", {
     id: serial("id").primaryKey(),
-    fileKey: text("fileKey").notNull(),
+    fileKey: text("file_key").notNull(),
     isRoom: boolean("is_a_room").default(false),
-    fileName: text("fileName").notNull(),
+    fileName: text("file_name").notNull(),
     pdfUrl: text("pdfurl").notNull(),
-    createdBy: serial("createdBy").references(() => User.id),
+    createdBy: serial("created_by").references(() => User.id),
     createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
