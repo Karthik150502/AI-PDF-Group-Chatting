@@ -13,7 +13,8 @@ export default async function PDFViewer({ chatid }: Props) {
 
 
     return (
-        <iframe src={`https://docs.google.com/gview?url=${pdfUrl}&embedded=true`} className='w-full h-full'>
-        </iframe>
+        // <iframe src={`https://docs.google.com/gview?url=${pdfUrl}&embedded=true`} className='w-full h-full'>
+        // </iframe>
+        <></>
     )
 }

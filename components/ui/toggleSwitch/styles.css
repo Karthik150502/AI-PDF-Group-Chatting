@@ -1,0 +1,6 @@
+
+
+.toggle-switch[data-isOn="true"] {
+  justify-content: flex-end;
+}
+

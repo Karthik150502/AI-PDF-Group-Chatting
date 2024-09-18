@@ -2,6 +2,7 @@
 import React from 'react'
 import { MessageType } from '@/app/lib/db/schema'
 import "./styles.css"
+import MessageViewerHeader from "../messageViewerHeader/msgViewerHeader"
 export default function ({ messages }: { messages: MessageType[] }) {
 
     React.useEffect(() => {
@@ -16,11 +17,11 @@ export default function ({ messages }: { messages: MessageType[] }) {
 
 
     return (
-        <div className='w-full h-full flex flex-col items-center justify-center '>
-            <div className="w-full h-[10%] bg-black">
-
+        <div className='w-full h-full flex flex-col items-center justify-start relative'>
+            <div className="w-full absolute top-0">
+                <MessageViewerHeader />
             </div>
-            <div className="w-full h-[70%] overflow-y-scroll flex flex-col items-center justify-start gap-y-3  px-2 py-2 scrollbar" id="msg-cont">
+            <div className="w-full h-[80%] overflow-y-scroll flex flex-col items-center justify-start gap-y-3  px-2 py-2 scrollbar" id="msg-cont">
 
                 {
                     messages.map((msg) => {
