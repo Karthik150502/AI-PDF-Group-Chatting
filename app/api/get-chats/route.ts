@@ -6,15 +6,15 @@ import { options } from "../auth/[...nextauth]/options";
 import { eq } from "drizzle-orm";
 export async function POST(req: Request, res: Response) {
     const session = await getServerSession(options);
-    // if (session) {
-    //     // Signed in
-    //     console.log("Session", JSON.stringify(session, null, 2))
-    // } else {
-    //     // Not Signed in
-    //     return NextResponse.json({
-    //         error: "Unauthorized"
-    //     }, { status: 401 })
-    // }
+    if (session) {
+        // Signed in
+        console.log("Session", session)
+    } else {
+        // Not Signed in
+        return NextResponse.json({
+            error: "Unauthorized"
+        }, { status: 401 })
+    }
     try {
         const body = await req.json();
         const { userid } = body;

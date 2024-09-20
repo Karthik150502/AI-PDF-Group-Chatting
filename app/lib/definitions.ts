@@ -32,3 +32,18 @@ export type PasswordCompliance = {
     text: string,
     complied: boolean
 }[];
+
+export enum UserSystemEnum {
+    SYSTEM = "SYSTEM",
+    USER = "USER"
+}
+
+
+export type MsgViewType = {
+    id: number,
+    message: string,
+    sentAt: string,
+    role: UserSystemEnum.SYSTEM | UserSystemEnum.USER,
+    sentBy: number,
+    chat: number
+}

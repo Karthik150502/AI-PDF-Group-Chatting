@@ -1,14 +1,12 @@
 import React from 'react'
 
 type Props = {
-    chatid: string
+    pdfUrl: string
 }
-import { getChat } from '@/app/lib/chats/chats';
 
 
-export default async function PDFViewer({ chatid }: Props) {
+export default function PDFViewer({ pdfUrl }: Props) {
 
-    let pdfUrl = await getChat(7)
 
 
 

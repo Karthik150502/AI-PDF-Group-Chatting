@@ -13,6 +13,7 @@ export const User = pgTable("User", {
 
 export const Chat = pgTable("Chat", {
     id: serial("id").primaryKey(),
+    name: varchar("chat_name", { length: 50 }),
     fileKey: text("file_key").notNull(),
     isRoom: boolean("is_a_room").default(false),
     fileName: text("file_name").notNull(),

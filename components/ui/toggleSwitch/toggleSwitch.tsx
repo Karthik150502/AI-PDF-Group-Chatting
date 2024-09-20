@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import './styles.css';
+import clsx from 'clsx'
 /**
  * This is an example of layout animations in Framer Motion 2.
  *
@@ -14,12 +14,12 @@ import './styles.css';
 
 export default function ToggleSwitch() {
     const [isOn, setIsOn] = useState(false);
-
     const toggleSwitch = () => setIsOn(!isOn);
 
+    
 
     return (
-        <div className="toggle-switch w-[45px] h-[26px] flex justify-start rounded-full p-[3px] cursor-pointer bg-green-400 transition-opacity opacity-30 hover:opacity-100 duration-300" data-isOn={isOn} onClick={toggleSwitch}>
+        <div className={clsx("toggle-switch w-[45px] h-[26px] flex rounded-full p-[3px] cursor-pointer  transition-all opacity-30 hover:opacity-100 duration-300", isOn ? "justify-end bg-green-400" : "justify-start bg-red-500")} onClick={toggleSwitch}>
             <motion.div className="w-[20px] h-[20px] bg-white rounded-full" layout transition={spring} />
         </div>
     );

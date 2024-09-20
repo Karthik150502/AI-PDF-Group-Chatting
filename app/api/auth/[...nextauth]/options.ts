@@ -94,7 +94,7 @@ export const options = {
 
 
 
-        async session({ session, token }: { session: any, token: any }) {
+        async session({ session, token }: { session: any, token: any }): UserSession {
             const newSession: UserSession = session as UserSession;
             // Returning some data to utilize in the session.
             if ((newSession.user && token.uid)) {

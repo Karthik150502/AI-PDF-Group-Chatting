@@ -3,8 +3,24 @@ import React from 'react'
 import { MessageType } from '@/app/lib/db/schema'
 import "./styles.css"
 import MessageViewerHeader from "../messageViewerHeader/msgViewerHeader"
-export default function ({ messages }: { messages: MessageType[] }) {
+import SystemMessage from './SystemMessage/SystemMessage'
+import IncomingMessage from './IncomingMessage/IncomingMessage'
+import OutgoingMessage from './OutgoingMessage/OutgoingMessage'
+import { MsgViewType } from '@/app/lib/definitions'
+import { Input } from '../input'
+import { Send, Laugh } from 'lucide-react'
+type Props = {
+    messages: MsgViewType[],
+    userid?: string,
+    chatid: number
+}
 
+
+export default function ({ messages, userid, chatid }: Props) {
+
+
+
+    console.log(userid)
     React.useEffect(() => {
         const messageContainer = document.getElementById("msg-cont")
         if (messageContainer) {
@@ -18,33 +34,28 @@ export default function ({ messages }: { messages: MessageType[] }) {
 
     return (
         <div className='w-full h-full flex flex-col items-center justify-start relative'>
-            <div className="w-full absolute top-0">
-                <MessageViewerHeader />
+            <div className="w-full lg:h-[10vh] md:h-[5vh] sm:h-[5vh] xs-[5vh]  flex items-center">
+                <MessageViewerHeader chatid={chatid} />
             </div>
-            <div className="w-full h-[80%] overflow-y-scroll flex flex-col items-center justify-start gap-y-3  px-2 py-2 scrollbar" id="msg-cont">
-
+            <div className="w-full lg:max-h-[80vh] lg:h-[80vh] md:max-h-[40vh] md:h-[40vh] sm:max-h-[40vh] sm:h-[40vh] xs:max-h-[40vh] xs:h-[40vh] overflow-y-scroll flex flex-col items-center justify-start gap-y-3  px-2 py-2 scrollbar" id="msg-cont">
                 {
                     messages.map((msg) => {
                         return (
-                            msg.role === "SYSTEM" ? <div key={msg.sentAt.getTime()} className='flex flex-col w-full justify-center items-start'>
-                                <div className="min-w-fit max-w-2/3 rounded-md  text-sm flex items-start justify-start gap-x-2">
-                                    <div className="w-[20px] h-[20px] rounded-full bg-red-500">
-                                    </div>
-                                    <p className='text-white'>{msg.message}</p>
-                                </div>
-                                <p className="text-[8px] float-right mt-1 text-slate-400">{msg.sentAt.toLocaleTimeString()}</p>
-                            </div> : <div className='flex flex-col w-full max-w-2/3 justify-center items-end'>
-                                <div className=" min-w-fit rounded-md text-white text-sm">
-                                    {msg.message}
-                                </div>
-                                <p className="text-[8px] float-left mt-1 text-slate-400">{msg.sentAt.toLocaleTimeString()} | {msg.sentBy}</p>
-                            </div>
+                            '111' === String(msg.sentBy) ? <OutgoingMessage key={msg.sentAt} message={msg.message} sentAt={msg.sentAt} /> : (
+                                msg.role === "SYSTEM" ? <SystemMessage key={msg.sentAt} message={msg.message} sentAt={msg.sentAt} /> : <IncomingMessage key={msg.sentAt} message={msg.message} sentAt={msg.sentAt} />
+                            )
                         )
                     })
                 }
             </div>
-            <div className='w-full h-[20%]'>
-
+            <div className='w-full lg:h-[10vh] md:h-[5vh] sm:h-[5vh] xs-[5vh] bg-green-400 flex items-center justify-evenly p-4 gap-x-2'>
+                <label htmlFor='send-msg' className='relative w-[90%]'>
+                    <Input className='text-black w-full placeholder:text-slate-600 rounded-full pr-10' placeholder='What is this document about?' id='send-msg' />
+                    <Laugh onClick={() => {
+                        window
+                    }} strokeWidth={1} className='absolute top-1 right-2' />
+                </label>
+                <div className="bg-purple-500 rounded-full h-10 w-10 flex items-center justify-center "><Send strokeWidth={1} size={20} className='text-white' /></div>
             </div>
         </div >
     )

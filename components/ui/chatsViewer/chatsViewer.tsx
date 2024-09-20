@@ -10,7 +10,7 @@ export default function ChatsViewer() {
 
 
     return (
-        <div className={clsx("min-h-screen w-[90px] flex item-center justify-start absolute menu-transition gap-x-4 bg-transparent", showMenu ? "left-0" : "left-[-160px]")}>
+        <div className={clsx("min-h-screen w-[90px] flex item-center justify-start absolute menu-transition gap-x-4 bg-transparent z-10", showMenu ? "left-0" : "left-[-160px]")}>
 
             <section className="min-h-screen w-[210px] flex items-start justify-center">
                 <div className="h-full w-[160px] bg-slate-950 "></div>
