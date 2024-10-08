@@ -59,10 +59,6 @@ export default function SignUpform() {
 
 
         router.push(`/signin`)
-
-
-
-
     }
 
 
