@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
-import SignInform from '@/components/signin/signInForm';
-
+import SigninForm from "../../../components/signin/signInForm"
 import {
   motion,
   useMotionTemplate,

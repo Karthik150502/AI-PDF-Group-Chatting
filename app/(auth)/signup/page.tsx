@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import SignUpform from '@/components/signup/signUpform'
+import SignUpform from '../../../components/signup/signUpform'
 
 import {
     motion,
