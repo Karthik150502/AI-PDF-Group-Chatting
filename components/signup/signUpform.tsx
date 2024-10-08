@@ -67,8 +67,9 @@ export default function SignUpform() {
 
 
     return (
-        <section className='min-w-[320px] w-[340px] max-w-[400px] h-auto flex items-center justify-center signup-bg p-4 rounded-none'>
-            <form onSubmit={handleSubmit} className='flex flex-col items-center justify-center gap-y-2 w-full'>
+        <section className='min-w-[320px] w-[340px] h-auto flex items-center justify-center signup-bg p-4 rounded-2xl'>
+            <form onSubmit={handleSubmit} className='flex flex-col items-center justify-center gap-y-1 w-full'>
+                <p className='text-xl'>Sign Up | DocAI</p>
 
                 <label htmlFor="fullname" className='flex flex-col items-start justify-center w-full gap-y-1'>
                     <p className='text-white text-xs ml-2 mb-2'>Full Name</p>

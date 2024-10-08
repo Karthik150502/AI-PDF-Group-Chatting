@@ -37,7 +37,7 @@ export default function page() {
                 style={{
                     backgroundImage
                 }}
-                className='text-8xl font-extrabold bg-clip-text text-transparent'>Sign Up</motion.p>
+                className='md:text-8xl text-6xl font-extrabold bg-clip-text text-transparent'>Sign Up</motion.p>
             <SignUpform />
         </motion.div>
     )
