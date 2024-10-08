@@ -15,16 +15,32 @@ const config: Config = {
 		"./app/**/*.{js,ts,jsx,tsx,mdx}",
 	],
 	theme: {
+		container: {
+			center: true,
+			padding: {
+				DEFAULT: "20px",
+				lg: "80px"
+			},
+			screens: {
+				sm: "375px",
+				md: "768px",
+				lg: "1200px"
+			}
+		},
 		screens: {
 			"xs": "200px",
-			"sm": "340px",
+			"sm": "375px",
 			"md": "768px",
-			"lg": "1024px",
+			"lg": "1200px",
 			"xl": "1280px",
 			"2xl": "1536px"
 		},
 		extend: {
 			colors: {
+				dark: {
+					1: '#1C1C1E',
+					2: '#022A34',
+				},
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				card: {
@@ -70,7 +86,7 @@ const config: Config = {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
-			}
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate"), addVariablesForColors],

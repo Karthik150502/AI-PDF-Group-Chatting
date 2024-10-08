@@ -4,7 +4,7 @@ import { SignUpType, SignInType } from "./validation";
 import { db } from "./db";
 import { User } from "./db/schema";
 import { eq, or } from "drizzle-orm";
-import { hash, compare } from 'bcryptjs';
+import { hash, compare } from 'bcrypt';
 import { sql } from "drizzle-orm";
 
 

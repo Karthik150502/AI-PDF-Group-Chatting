@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster"
 import Provider from "@/components/ui/provider";
 import { montserrat300 } from "../fonts/montserrat";
 import clsx from "clsx";
-
+import { Toaster as SonnerToaster } from "sonner";
 
 
 
@@ -21,6 +21,7 @@ export default function RootLayout({
                     <body className={clsx("min-h-screen flex relative overflow-hidden ", montserrat300.className)}>
                         {children}
                         <Toaster />
+                        <SonnerToaster />
                     </body >
                 </Provider>
             </AuthProvider>

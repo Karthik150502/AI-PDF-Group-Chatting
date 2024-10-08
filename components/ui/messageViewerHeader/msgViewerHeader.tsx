@@ -10,7 +10,7 @@ export default function MsgViewerHeader({ chatid }: { chatid: number }) {
 
 
     return (
-        <div className="w-full h-hull flex items-center justify-between z-10">
+        <div className="w-full h-hull flex items-center px-8 justify-between">
             <ToggleSwitch />
             <p className="text-xl text-white">
 

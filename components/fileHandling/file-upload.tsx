@@ -4,16 +4,16 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
-import { uploadFileToS3 } from "@/app/lib/s3/s3";
+import { S3Handler } from "@/packages/s3/s3main";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { useSession } from 'next-auth/react';
 import { montserrat300 } from "@/app/fonts/montserrat";
 import { useRouter } from "next/navigation";
-
-
 import axios from 'axios';
 import Loading from "../ui/Loading/loading";
+
+
+
 const mainVariant = {
     initial: {
         x: 0,
@@ -43,20 +43,18 @@ type MutateArgs = {
 
 export const FileUpload = ({
     onChange,
+    userid
 }: {
-    onChange?: (files: File[]) => void;
+    onChange?: (files: File[]) => void,
+    userid: string
 }) => {
     const [files, setFiles] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [uploading, setUploading] = useState<boolean>(false);
     const { toast } = useToast();
     const router = useRouter();
+    const S3 = S3Handler.getInstance();
 
-    const { data: session } = useSession({
-        required: true,
-        onUnauthenticated() {
-        }
-    })
 
 
     const { mutate, isPending } = useMutation({
@@ -64,7 +62,7 @@ export const FileUpload = ({
             if (data) {
                 const { fileName, fileKey } = data;
                 const response = await axios.post('/api/create-chat', {
-                    createdBy: session?.user?.id, fileName, fileKey
+                    createdBy: userid, fileName, fileKey
                 })
                 console.log(response.data)
                 return response.data
@@ -87,7 +85,8 @@ export const FileUpload = ({
             return
         }
         setUploading(true)
-        const data = await uploadFileToS3(file);
+
+        const data = await S3.uploadObject(file)
         if (!data?.fileKey || !data.fileName) {
             toast({
                 title: "File upload failed",

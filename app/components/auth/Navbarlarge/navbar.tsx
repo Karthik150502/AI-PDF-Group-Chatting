@@ -8,7 +8,6 @@ export default function navbar() {
             <div className='w-[40%]  h-full flex px-8 justify-around items-center'>
                 <Link href={"/home"} className='text-black'>Home</Link>
                 <Link href={"/chats"} className='text-black'>Chats</Link>
-
             </div>
 
             <div className="w-[30%]h-full">

@@ -3,8 +3,12 @@ import { Chat, Participant } from "@/app/lib/db/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next"
 import { options } from "../auth/[...nextauth]/options";
-import { getS3Url } from "@/app/lib/s3/s3";
+import { S3Handler } from "@/packages/s3/s3main";
 export async function POST(req: Request, res: Response) {
+
+
+
+
     const session = await getServerSession(options);
     if (session) {
         // Signed in
@@ -16,6 +20,8 @@ export async function POST(req: Request, res: Response) {
         }, { status: 401 })
     }
     try {
+
+        const s3 = S3Handler.getInstance()
         const body = await req.json();
         const { fileKey, fileName, createdBy } = body;
 
@@ -24,7 +30,7 @@ export async function POST(req: Request, res: Response) {
         const chat = await db.insert(Chat).values({
             fileKey: fileKey,
             fileName: fileName,
-            pdfUrl: getS3Url(fileKey),
+            pdfUrl: s3.getUrl(fileKey),
             createdBy,
         }).returning({
             chatid: Chat.id

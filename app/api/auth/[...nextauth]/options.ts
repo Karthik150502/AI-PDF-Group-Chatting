@@ -5,10 +5,9 @@ import CredentialProvider from "next-auth/providers/credentials"
 import { db } from "@/app/lib/db"
 import { User, UserType } from "@/app/lib/db/schema"
 import { eq, or } from "drizzle-orm"
-import { randomUUID, randomBytes } from "crypto"
-import { NextAuthOptions } from 'next-auth';
-import { Session } from 'next-auth';
+import { Awaitable, Session, User as UserNextAuth } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
+import { stringTo2048 } from "aws-sdk/clients/customerprofiles";
 
 
 export interface UserSession extends Session {
@@ -25,6 +24,8 @@ interface Token extends JWT {
     uid: string;
     jwtToken: string;
 }
+
+
 
 
 
@@ -65,10 +66,13 @@ export const options = {
                 },
             },
 
-            async authorize(creds) {
+            async authorize(creds: any): Promise<null | UserNextAuth> {
                 const user = await db.select().from(User).where(or(eq(User.username, creds?.username!), eq(User.email, creds?.email!)));
-                if (user) {
-                    return user[0]
+                if (user.length > 0) {
+                    return {
+                        ...user[0],
+                        id: user[0].id as unknown as string
+                    }
                 }
                 return null;
             }
@@ -82,7 +86,7 @@ export const options = {
     },
 
     callbacks: {
-        async jwt({ token, user }: { token: any, user: any }) {
+        async jwt({ token, user }: { token: any, user: any }): Promise<Token> {
             const newToken: Token = token as Token;
             // Generating the body for the jwt to sign.
             if (user) {
@@ -94,7 +98,7 @@ export const options = {
 
 
 
-        async session({ session, token }: { session: any, token: any }): UserSession {
+        async session({ session, token }: { session: any, token: any }): Promise<UserSession> {
             const newSession: UserSession = session as UserSession;
             // Returning some data to utilize in the session.
             if ((newSession.user && token.uid)) {

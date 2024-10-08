@@ -13,15 +13,15 @@ type Params = {
         chatid: string;
     };
 }
-
-
 import { Suspense } from 'react';
 import PDFViewerSkeleton from '@/components/PDFViewer/PdfLoader';
+
+
 import { getChat } from '@/app/lib/chats/chats';
 
 export default async function page({ params: { chatid } }: Params) {
     const session = await getServerSession(options);
-
+    console.log(chatid)
     let chat = await getChat(chatid)
 
     return (
