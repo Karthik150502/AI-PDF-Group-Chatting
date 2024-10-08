@@ -12,8 +12,6 @@
   },
   "browser": {
     "fs": false,
-    "os": false,
-    "path": false
   },
   "dependencies": {
     "@langchain/community": "^0.3.3",
